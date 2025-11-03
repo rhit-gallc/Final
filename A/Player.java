@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 /**
  * This is the Player class which helps to control the character you play as and deals 
- * @authors Tyler Bindel
+ * @authors Tyler Bindel, Colton Gall
  * @Reviewers
  */
 
@@ -92,4 +92,15 @@ public class Player extends Entity implements KeyListener {
             g.fillRect(x, y, width, height);
         }
     }
+    
+ // --- Added getters for HUD ---
+    public int getScore() {
+        return score;
+    }
+
+    public int getLives() {
+        return lives;
+    }
 }
+    
+

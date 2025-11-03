@@ -13,7 +13,7 @@ public class Display extends JPanel implements Runnable {
     public Display() {
         setPreferredSize(new Dimension(600, 450));
         setBackground(Color.CYAN);
-        level = new Level("level1");
+        level = new Level();
         addKeyListener(level.player);
         setFocusable(true);
         gameThread = new Thread(this);
