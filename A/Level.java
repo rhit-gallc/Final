@@ -1,9 +1,10 @@
 import java.awt.Graphics;
 import java.util.List;
 import java.util.ArrayList;
+
 /**
  * This is code that defines a level that can be loaded into the game
- * @author Tyler Bindel
+ * @author Tyler Bindel, Colton Gall
  * @Reviewers
  */
 public class Level {
@@ -11,9 +12,11 @@ public class Level {
     public List<Platform> platforms;
     public List<Enemy> enemies;
     public List<Collectibles> blocks;
+    private Hud hud;
 
     public Level() {
         player = new Player(100, 100);
+        hud = new Hud(player);
 
         platforms = new ArrayList<>();
         enemies = new ArrayList<>();
@@ -44,5 +47,7 @@ public class Level {
         for (Enemy e : enemies) e.draw(g);
         for (Collectibles c : blocks) c.draw(g);
         player.draw(g);
+
+        hud.draw(g);
     }
 }
