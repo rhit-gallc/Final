@@ -24,6 +24,7 @@ public class Level {
 		this.fileName = fileName;
 		loadFromFile();
 		hud = new Hud(player);
+		platforms.add(new Platform(0, 400, 600, 30));
 		/*
 		 * player = new Player(100, 100); platforms.add(new Platform(0, 400, 600, 30));
 		 * enemies.add(new Enemy(300, 330)); blocks.add(new Collectibles(250, 360, 10));
@@ -32,13 +33,11 @@ public class Level {
 
 	public void update() {
 		player.update();
-
-		for (Platform p : platforms) {
-			player.checkPlatformCollision(p);
-		}
-
 		for (Enemy e : enemies) {
 			e.update();
+		}
+		for (Platform p : platforms) {
+			player.checkPlatformCollision(p);
 		}
 		for (Collectibles c : blocks) {
 			c.update();
@@ -46,14 +45,16 @@ public class Level {
 	}
 
 	public void draw(Graphics g) {
-		for (Platform p : platforms)
+		for (Platform p : platforms) {
 			p.draw(g);
-		for (Enemy e : enemies)
+		}
+		for (Enemy e : enemies) {
 			e.draw(g);
-		for (Collectibles c : blocks)
+		}
+		for (Collectibles c : blocks) {
 			c.draw(g);
+		}
 		player.draw(g);
-
 		hud.draw(g);
 	}
 
@@ -82,7 +83,7 @@ public class Level {
 					platforms.add(new Platform(x, y, 30, 30));
 					break;
 				case 'e':
-					enemies.add(new Enemy(x-(50/2), y-(70/2)));
+					enemies.add(new Enemy(x, y));
 					break;
 				case 'b':
 					blocks.add(new Collectibles(x, y, 10));
