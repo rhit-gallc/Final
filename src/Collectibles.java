@@ -4,9 +4,10 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 /**
- * Collectible items that the player can pick up
+ * Facilitates creation of and management of collectible items in the game.
+ * 
  * @authors Tyler Bindel
- * @Reviewers 
+ * @Reviewers Lizzy Jaynes
  */
 public class Collectibles extends Entity {
     private int points;
@@ -20,7 +21,7 @@ public class Collectibles extends Entity {
         this.width = 30;
         this.height = 30;
         try {
-            sprite = ImageIO.read(new File("Banana.png"));
+            sprite = ImageIO.read(new File("/Final/A/Banana.png"));
         } catch (IOException e) {
             System.out.println("Collectible image not found!");
         }
