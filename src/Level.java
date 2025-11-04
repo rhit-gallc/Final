@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -5,6 +7,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.awt.color.*;
+import java.awt.font.*;
 
 /**
  * This is code that defines a level that can be loaded into the game
@@ -18,6 +22,7 @@ public class Level {
 	public List<Enemy> enemies = new ArrayList<>();
 	public List<Collectibles> blocks = new ArrayList<>();
 	private Hud hud;
+	private boolean gameOver = false;
 	String fileName;
 
 	public Level(String fileName) {
@@ -32,13 +37,25 @@ public class Level {
 	}
 
 	public void update() {
+		if (gameOver) return;
 		player.update();
-		for (Enemy e : enemies) {
-			e.update();
-		}
+		
 		for (Platform p : platforms) {
 			player.checkPlatformCollision(p);
 		}
+
+		for (Enemy e : enemies) {
+			e.update();
+			if (player.getBounds().intersects(e.getBounds())) {
+				player.loseLife();
+				if (player.getLives() <= 0) {
+					gameOver = true;
+					System.out.println("Game Over!");
+				}
+				break;
+			}
+		}
+
 		for (Collectibles c : blocks) {
 			c.update();
 		}
@@ -56,7 +73,16 @@ public class Level {
 		}
 		player.draw(g);
 		hud.draw(g);
+		
+		if (gameOver) {
+			g.setColor(Color.WHITE);
+			g.fillRect(0, 0, 600, 450);
+			g.setColor(Color.RED);
+			g.setFont(new Font("Arial", Font.BOLD, 40));
+			g.drawString("GAME OVER", 180, 225);
+		}
 	}
+	
 
 	public void loadFromFile() {
 		Scanner scanner = null;

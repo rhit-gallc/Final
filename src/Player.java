@@ -101,7 +101,12 @@ public class Player extends Entity implements KeyListener {
 		}
 	}
 
-	// --- Added getters for HUD ---
+	
+	public void loseLife() {
+		lives--;
+		System.out.println("Player lost a life, lives left: " + lives);
+	}
+	
 	public int getScore() {
 		return score;
 	}
