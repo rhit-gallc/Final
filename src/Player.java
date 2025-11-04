@@ -5,12 +5,13 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * This is the Player class which helps to control the character you play as and
  * deals
  * 
- * @authors Tyler Bindel, Colton Gall
+ * @authors Tyler Bindel, Colton Gall, Ritu Bharamaraddi
  * @Reviewers
  */
 
@@ -51,18 +52,20 @@ public class Player extends Entity implements KeyListener {
 		applyGravity();
 	}
 
-	public void checkPlatformCollision(Platform p) {
-		if (getBounds().intersects(p.getBounds())) {
-			Rectangle r = getBounds();
-			Rectangle pr = p.getBounds();
-			if (r.y + r.height <= pr.y + 15) { // top collision
-				y = pr.y - height;
-				yVelocity = 0;
-				onGround = true;
-			}
-		} else {
-			onGround = false;
-		}
+	public void checkPlatformCollision(List<Platform> platforms) {
+	    onGround = false;
+	    for (Platform p : platforms) {
+	        Rectangle r = getBounds();
+	        Rectangle pr = p.getBounds();
+	        if (r.intersects(pr)) {
+	            if (r.y + r.height <= pr.y + 15) {
+	                y = pr.y - height;
+	                yVelocity = 0;
+	                onGround = true;
+	                break;
+	            }
+	        }
+	    }
 	}
 
 	@Override
@@ -101,6 +104,18 @@ public class Player extends Entity implements KeyListener {
 		}
 	}
 
+	public void resetPlayer(int startX, int startY) {
+	    this.x = startX;
+	    this.y = startY;
+	    this.xVelocity = 0;
+	    this.yVelocity = 0;
+	    this.movingLeft = false;
+	    this.movingRight = false;
+	    this.jumping = false;
+	    this.onGround = false;
+	    this.lives = 3;
+	    this.score = 0;
+	}
 	
 	public void loseLife() {
 		lives--;

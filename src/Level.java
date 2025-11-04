@@ -15,7 +15,7 @@ import java.awt.event.KeyEvent;
 /**
  * This is code that defines a level that can be loaded into the game
  * 
- * @author Tyler Bindel, Colton Gall
+ * @author Tyler Bindel, Colton Gall, Ritu Bharamaraddi
  * @Reviewers
  */
 public class Level implements KeyListener{
@@ -42,9 +42,7 @@ public class Level implements KeyListener{
 		if (gameOver) return;
 		player.update();
 		
-		for (Platform p : platforms) {
-			player.checkPlatformCollision(p);
-		}
+		player.checkPlatformCollision(platforms);
 
 		for (Enemy e : enemies) {
 			e.update();
@@ -89,6 +87,8 @@ public class Level implements KeyListener{
 	}
 	
 	public void loadFromFile() {
+		enemies.clear();
+		blocks.clear();
 		Scanner scanner = null;
 		File f = null;
 		try {
@@ -119,8 +119,12 @@ public class Level implements KeyListener{
 					blocks.add(new Collectibles(x, y, 10));
 					break;
 				case 'p':
-					player = new Player(x, y);
-					break;
+					if (player != null) {
+				        player.resetPlayer(x, y);
+				    } else {
+				        player = new Player(x, y);
+				    }
+				    break;
 				default:
 					break;
 				}
@@ -131,24 +135,29 @@ public class Level implements KeyListener{
 		
 
 		public void resetLevel() {
-			player = new Player(100, 100);
-			platforms.clear();
 			enemies.clear();
 			blocks.clear();
 			loadFromFile();
 			hud = new Hud(player);
 			gameOver = false;
+			for (Platform p : platforms) {
+		        player.checkPlatformCollision(platforms);
+		    }
 		}
 		
 		@Override
 		public void keyPressed(KeyEvent e) {
 			if (gameOver && e.getKeyCode() == KeyEvent.VK_SPACE) {
 				resetLevel();
+			} else {
+				player.keyPressed(e);
 			}
 		}
 		
 		@Override
-		public void keyReleased(KeyEvent e) {}
+		public void keyReleased(KeyEvent e) {
+			player.keyReleased(e);
+		}
 		
 		@Override
 		public void keyTyped(KeyEvent e) {}
