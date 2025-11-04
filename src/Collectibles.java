@@ -21,7 +21,7 @@ public class Collectibles extends Entity {
         this.width = 30;
         this.height = 30;
         try {
-            sprite = ImageIO.read(new File("/Final/A/Banana.png"));
+            sprite = ImageIO.read(new File("SpriteImages\\Banana.png"));
         } catch (IOException e) {
             System.out.println("Collectible image not found!");
         }

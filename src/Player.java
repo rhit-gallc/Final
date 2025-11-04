@@ -26,7 +26,7 @@ public class Player extends Entity implements KeyListener {
 		this.width = 30;
 		this.height = 30;
 		try {
-			sprite = ImageIO.read(new File("KingJulien.png"));
+			sprite = ImageIO.read(new File("SpriteImages\\KingJulien.png"));
 		} catch (IOException e) {
 			System.out.println("Player image not found!");
 		}

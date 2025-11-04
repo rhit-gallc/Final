@@ -22,7 +22,7 @@ public class Enemy extends Entity {
 		this.height = 30;
 		movingRight = true;
 		try {
-			sprite = ImageIO.read(new File("Mort.png"));
+			sprite = ImageIO.read(new File("SpriteImages\\Mort.png"));
 		} catch (IOException e) {
 			System.out.println("Enemy image not found!");
 		}
