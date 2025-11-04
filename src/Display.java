@@ -15,6 +15,7 @@ public class Display extends JPanel implements Runnable {
         setBackground(Color.CYAN);
         level = new Level("Levels\\level1.txt");
         addKeyListener(level.player);
+//        addKeyListener(level);  // this is making the platform disappear when you restart after hitting the space bar
         setFocusable(true);
         gameThread = new Thread(this);
         gameThread.start();

@@ -9,6 +9,8 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.awt.color.*;
 import java.awt.font.*;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
 /**
  * This is code that defines a level that can be loaded into the game
@@ -16,7 +18,7 @@ import java.awt.font.*;
  * @author Tyler Bindel, Colton Gall
  * @Reviewers
  */
-public class Level {
+public class Level implements KeyListener{
 	public Player player;
 	public List<Platform> platforms = new ArrayList<>();
 	public List<Enemy> enemies = new ArrayList<>();
@@ -79,11 +81,13 @@ public class Level {
 			g.fillRect(0, 0, 600, 450);
 			g.setColor(Color.RED);
 			g.setFont(new Font("Arial", Font.BOLD, 40));
-			g.drawString("GAME OVER", 180, 225);
+			g.drawString("GAME OVER", 175, 215);
+			g.setColor(Color.BLACK);
+			g.setFont(new Font("Arial", Font.PLAIN, 20));
+			g.drawString("Press SPACE to play again", 175, 325);
 		}
 	}
 	
-
 	public void loadFromFile() {
 		Scanner scanner = null;
 		File f = null;
@@ -94,7 +98,7 @@ public class Level {
 			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-		// frame size = 600, 450
+		// frame size is 600, 450
 		int lineNum = 0;
 		while (scanner.hasNextLine()) {
 			String line = scanner.nextLine();
@@ -123,6 +127,29 @@ public class Level {
 			}
 		}
 		scanner.close();
-
 	}
+		
+
+		public void resetLevel() {
+			player = new Player(100, 100);
+			platforms.clear();
+			enemies.clear();
+			blocks.clear();
+			loadFromFile();
+			hud = new Hud(player);
+			gameOver = false;
+		}
+		
+		@Override
+		public void keyPressed(KeyEvent e) {
+			if (gameOver && e.getKeyCode() == KeyEvent.VK_SPACE) {
+				resetLevel();
+			}
+		}
+		
+		@Override
+		public void keyReleased(KeyEvent e) {}
+		
+		@Override
+		public void keyTyped(KeyEvent e) {}
 }
