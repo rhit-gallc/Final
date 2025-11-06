@@ -68,6 +68,7 @@ public class Level {
 			e.draw(g);
 		}
 		for (Collectibles c : blocks) {
+			if (c.collected) continue;
 			c.draw(g);
 		}
 		player.draw(g);
@@ -147,6 +148,16 @@ public class Level {
 		if (gameOver) {
 			resetLevel();
 		}
+	}
+	
+	public void collectItem() {
+	    for (Collectibles c : blocks) {
+	        if (!c.collected && player.getBounds().intersects(c.getBounds())) {
+	            c.setCollected(true);
+	            player.addScore(1);
+	            break;
+	        }
+	    }
 	}
 	/*
 	 * @Override public void keyPressed(KeyEvent e) { if (gameOver && e.getKeyCode()

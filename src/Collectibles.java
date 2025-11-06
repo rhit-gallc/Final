@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class Collectibles extends MovingEntity {
 	private int points;
-	private boolean collected;
+	public boolean collected;
 
 	public Collectibles(int x, int y, int width, int height, String spritePath) {
 		super(x, y, width, height, spritePath);

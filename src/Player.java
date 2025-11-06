@@ -76,6 +76,10 @@ public class Player extends MovingEntity {
 		lives--;
 		System.out.println("Player lost a life, lives left: " + lives);
 	}
+	
+	public void addScore(int amount) {
+	    score += amount;
+	}
 
 	public int getScore() {
 		return score;

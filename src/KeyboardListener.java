@@ -22,6 +22,7 @@ public class KeyboardListener implements KeyListener {
 		case KeyEvent.VK_RIGHT -> player.movingRight = true;
 		case KeyEvent.VK_UP -> player.jumping = true;
 		case KeyEvent.VK_SPACE -> level.checkReset();
+		case KeyEvent.VK_DOWN -> level.collectItem();
 		}
 
 	}
