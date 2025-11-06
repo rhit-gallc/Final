@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
  * @author Tyler Bindel, Colton Gall, Ritu Bharamaraddi
  * @Reviewers
  */
-public class Level implements KeyListener {
+public class Level {
 	int width = 800;
 	int height = 600;
 	final int sizeVal = 40;
@@ -34,11 +34,6 @@ public class Level implements KeyListener {
 		this.fileName = fileName;
 		loadFromFile();
 		hud = new Hud(player);
-		//platforms.add(new Platform(0, 400, 600, 40, "SpriteImages\\Platform.png"));
-		/*
-		 * player = new Player(100, 100); platforms.add(new Platform(0, 400, 600, 30));
-		 * enemies.add(new Enemy(300, 330)); blocks.add(new Collectibles(250, 360, 10));
-		 */
 	}
 
 	public void update() {
@@ -83,10 +78,10 @@ public class Level implements KeyListener {
 			g.fillRect(0, 0, width, height);
 			g.setColor(Color.RED);
 			g.setFont(new Font("Arial", Font.BOLD, 40));
-			g.drawString("GAME OVER", width/3, 215); // formerly 175, 215 for width 600 and height 450
+			g.drawString("GAME OVER", width / 3, 215); // formerly 175, 215 for width 600 and height 450
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Arial", Font.PLAIN, 20));
-			g.drawString("Press SPACE to play again", width/3, 325); // formerly 175, 325 for width 600 and height 450
+			g.drawString("Press SPACE to play again", width / 3, 325); // formerly 175, 325 for width 600 and height 450
 		}
 	}
 
@@ -148,21 +143,17 @@ public class Level implements KeyListener {
 		}
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if (gameOver && e.getKeyCode() == KeyEvent.VK_SPACE) {
+	public void checkReset() {
+		if (gameOver) {
 			resetLevel();
-		} else {
-			player.keyPressed(e);
 		}
 	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		player.keyReleased(e);
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
+	/*
+	 * @Override public void keyPressed(KeyEvent e) { if (gameOver && e.getKeyCode()
+	 * == KeyEvent.VK_SPACE) { resetLevel(); } else { player.keyPressed(e); } }
+	 * 
+	 * @Override public void keyReleased(KeyEvent e) { player.keyReleased(e); }
+	 * 
+	 * @Override public void keyTyped(KeyEvent e) { }
+	 */
 }

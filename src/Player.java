@@ -14,18 +14,15 @@ import java.util.List;
  * @authors Tyler Bindel, Colton Gall, Ritu Bharamaraddi
  * @Reviewers
  */
-
-public class Player extends MovingEntity implements KeyListener {
-	public Player(int x, int y, int width, int height, String spritePath) {
-		
-		super(x, y, width, height, spritePath);
-	}
-
+public class Player extends MovingEntity {
 	private int lives = 3;
 	private int score = 0;
-	private boolean movingLeft, movingRight, jumping, onGround;
-	private BufferedImage sprite;
+	// private boolean movingLeft, movingRight, jumping, onGround;
+	private boolean onGround;
 
+	public Player(int x, int y, int width, int height, String spritePath) {
+		super(x, y, width, height, spritePath);
+	}
 
 	@Override
 	public void update() {
@@ -47,66 +44,39 @@ public class Player extends MovingEntity implements KeyListener {
 	}
 
 	public void checkPlatformCollision(List<Platform> platforms) {
-	    onGround = false;
-	    for (Platform p : platforms) {
-	        Rectangle r = getBounds();
-	        Rectangle pr = p.getBounds();
-	        if (r.intersects(pr)) {
-	            if (r.y + r.height <= pr.y + 15) {
-	                y = pr.y - height;
-	                yVelocity = 0;
-	                onGround = true;
-	                break;
-	            }
-	        }
-	    }
-	}
-
-	@Override
-	public Rectangle getBounds() {
-		return new Rectangle(x, y, width, height);
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_LEFT -> movingLeft = true;
-		case KeyEvent.VK_RIGHT -> movingRight = true;
-		case KeyEvent.VK_UP -> jumping = true;
+		onGround = false;
+		for (Platform p : platforms) {
+			Rectangle r = getBounds();
+			Rectangle pr = p.getBounds();
+			if (r.intersects(pr)) {
+				if (r.y + r.height <= pr.y + 15) {
+					y = pr.y - height;
+					yVelocity = 0;
+					onGround = true;
+					break;
+				}
+			}
 		}
 	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case KeyEvent.VK_LEFT -> movingLeft = false;
-		case KeyEvent.VK_RIGHT -> movingRight = false;
-		case KeyEvent.VK_UP -> jumping = false;
-		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-	
 	public void resetPlayer(int startX, int startY) {
-	    this.x = startX;
-	    this.y = startY;
-	    this.xVelocity = 0;
-	    this.yVelocity = 0;
-	    this.movingLeft = false;
-	    this.movingRight = false;
-	    this.jumping = false;
-	    this.onGround = false;
-	    this.lives = 3;
-	    this.score = 0;
+		this.x = startX;
+		this.y = startY;
+		this.xVelocity = 0;
+		this.yVelocity = 0;
+		this.movingLeft = false;
+		this.movingRight = false;
+		this.jumping = false;
+		this.onGround = false;
+		this.lives = 3;
+		this.score = 0;
 	}
-	
+
 	public void loseLife() {
 		lives--;
 		System.out.println("Player lost a life, lives left: " + lives);
 	}
-	
+
 	public int getScore() {
 		return score;
 	}

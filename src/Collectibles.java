@@ -13,7 +13,6 @@ import java.io.IOException;
 public class Collectibles extends MovingEntity {
 	private int points;
 	private boolean collected;
-	private BufferedImage sprite;
 
 	public Collectibles(int x, int y, int width, int height, String spritePath) {
 		super(x, y, width, height, spritePath);
@@ -31,10 +30,4 @@ public class Collectibles extends MovingEntity {
 	@Override
 	public void update() {
 	}
-
-	@Override
-	public Rectangle getBounds() {
-		return new Rectangle(x, y, width, height);
-	}
-
 }

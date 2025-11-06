@@ -3,23 +3,36 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyboardListener implements KeyListener {
-	Player player;
-	
+	private Player player;
+	private Level level;
+
+	public KeyboardListener(Player player, Level level) {
+		this.player = player;
+		this.level = level;
+	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_LEFT -> player.movingLeft = true;
+		case KeyEvent.VK_RIGHT -> player.movingRight = true;
+		case KeyEvent.VK_UP -> player.jumping = true;
+		case KeyEvent.VK_SPACE -> level.checkReset();
+		}
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_LEFT -> player.movingLeft = false;
+		case KeyEvent.VK_RIGHT -> player.movingRight = false;
+		case KeyEvent.VK_UP -> player.jumping = false;
+		}
 
 	}
 }

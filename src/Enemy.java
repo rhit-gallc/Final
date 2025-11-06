@@ -12,14 +12,12 @@ import java.io.IOException;
  * @reviewers
  */
 public class Enemy extends MovingEntity {
-	private BufferedImage sprite;
 	private boolean movingLeft, movingRight;
 
 	public Enemy(int x, int y, int width, int height, String spritePath) {
 		super(x, y, width, height, spritePath);
 		movingRight = true;
 		movingLeft = false;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -32,16 +30,11 @@ public class Enemy extends MovingEntity {
 			}
 		} else if (movingRight) {
 			this.xVelocity = 5;
-			if (this.x > Constants.WIDTH-50) {
+			if (this.x > Constants.WIDTH - 50) {
 				movingLeft = true;
 				movingRight = false;
 			}
 		}
 		x += xVelocity;
-	}
-
-	@Override
-	public Rectangle getBounds() {
-		return new Rectangle(x, y, width, height);
 	}
 }
