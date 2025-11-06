@@ -11,21 +11,15 @@ import java.io.IOException;
  * @authors Tyler Bindel
  * @reviewers
  */
-public class Enemy extends Entity {
+public class Enemy extends MovingEntity {
 	private BufferedImage sprite;
 	private boolean movingLeft, movingRight;
 
-	public Enemy(int x, int y) {
-		this.x = x;
-		this.y = y-20;
-		this.width = 30;
-		this.height = 30;
+	public Enemy(int x, int y, int width, int height, String spritePath) {
+		super(x, y, width, height, spritePath);
 		movingRight = true;
-		try {
-			sprite = ImageIO.read(new File("SpriteImages\\Mort.png"));
-		} catch (IOException e) {
-			System.out.println("Enemy image not found!");
-		}
+		movingLeft = false;
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -38,7 +32,7 @@ public class Enemy extends Entity {
 			}
 		} else if (movingRight) {
 			this.xVelocity = 5;
-			if (this.x > 550) {
+			if (this.x > Constants.WIDTH-50) {
 				movingLeft = true;
 				movingRight = false;
 			}
@@ -49,14 +43,5 @@ public class Enemy extends Entity {
 	@Override
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, width, height);
-	}
-
-	public void draw(Graphics g) {
-		if (sprite != null)
-			g.drawImage(sprite, x, y, width, height, null);
-		else {
-			g.setColor(Color.RED);
-			g.fillRect(x, y, width, height);
-		}
 	}
 }

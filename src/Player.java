@@ -15,23 +15,17 @@ import java.util.List;
  * @Reviewers
  */
 
-public class Player extends Entity implements KeyListener {
+public class Player extends MovingEntity implements KeyListener {
+	public Player(int x, int y, int width, int height, String spritePath) {
+		
+		super(x, y, width, height, spritePath);
+	}
+
 	private int lives = 3;
 	private int score = 0;
 	private boolean movingLeft, movingRight, jumping, onGround;
 	private BufferedImage sprite;
 
-	public Player(int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.width = 30;
-		this.height = 30;
-		try {
-			sprite = ImageIO.read(new File("SpriteImages\\KingJulien.png"));
-		} catch (IOException e) {
-			System.out.println("Player image not found!");
-		}
-	}
 
 	@Override
 	public void update() {
@@ -94,16 +88,7 @@ public class Player extends Entity implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
-
-	public void draw(Graphics g) {
-		if (sprite != null)
-			g.drawImage(sprite, x, y, width, height, null);
-		else {
-			g.setColor(Color.BLUE);
-			g.fillRect(x, y, width, height);
-		}
-	}
-
+	
 	public void resetPlayer(int startX, int startY) {
 	    this.x = startX;
 	    this.y = startY;

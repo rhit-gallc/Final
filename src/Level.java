@@ -18,7 +18,10 @@ import java.awt.event.KeyEvent;
  * @author Tyler Bindel, Colton Gall, Ritu Bharamaraddi
  * @Reviewers
  */
-public class Level implements KeyListener{
+public class Level implements KeyListener {
+	int width = 800;
+	int height = 600;
+	final int sizeVal = 40;
 	public Player player;
 	public List<Platform> platforms = new ArrayList<>();
 	public List<Enemy> enemies = new ArrayList<>();
@@ -31,7 +34,7 @@ public class Level implements KeyListener{
 		this.fileName = fileName;
 		loadFromFile();
 		hud = new Hud(player);
-		platforms.add(new Platform(0, 400, 600, 30));
+		//platforms.add(new Platform(0, 400, 600, 40, "SpriteImages\\Platform.png"));
 		/*
 		 * player = new Player(100, 100); platforms.add(new Platform(0, 400, 600, 30));
 		 * enemies.add(new Enemy(300, 330)); blocks.add(new Collectibles(250, 360, 10));
@@ -39,9 +42,10 @@ public class Level implements KeyListener{
 	}
 
 	public void update() {
-		if (gameOver) return;
+		if (gameOver)
+			return;
 		player.update();
-		
+
 		player.checkPlatformCollision(platforms);
 
 		for (Enemy e : enemies) {
@@ -73,19 +77,19 @@ public class Level implements KeyListener{
 		}
 		player.draw(g);
 		hud.draw(g);
-		
+//600, 450
 		if (gameOver) {
 			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, 600, 450);
+			g.fillRect(0, 0, width, height);
 			g.setColor(Color.RED);
 			g.setFont(new Font("Arial", Font.BOLD, 40));
-			g.drawString("GAME OVER", 175, 215);
+			g.drawString("GAME OVER", width/3, 215); // formerly 175, 215 for width 600 and height 450
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Arial", Font.PLAIN, 20));
-			g.drawString("Press SPACE to play again", 175, 325);
+			g.drawString("Press SPACE to play again", width/3, 325); // formerly 175, 325 for width 600 and height 450
 		}
 	}
-	
+
 	public void loadFromFile() {
 		enemies.clear();
 		blocks.clear();
@@ -105,26 +109,26 @@ public class Level implements KeyListener{
 			lineNum++;
 			for (int i = 0; i < line.length(); i++) {
 				char c = line.charAt(i);
-				int x = i * 30;
-				int y = lineNum * 30;
+				int x = i * 40;
+				int y = lineNum * 40;
 
 				switch (c) {
 				case '_':
-					platforms.add(new Platform(x, y, 30, 30));
+					platforms.add(new Platform(x, y, 40, 40, "SpriteImages\\Platform.png"));
 					break;
 				case 'e':
-					enemies.add(new Enemy(x, y));
+					enemies.add(new Enemy(x, y, 40, 40, line));
 					break;
 				case 'b':
-					blocks.add(new Collectibles(x, y, 10));
+					blocks.add(new Collectibles(x, y, 40, 40, "SpriteImages\\Banana.png"));
 					break;
 				case 'p':
 					if (player != null) {
-				        player.resetPlayer(x, y);
-				    } else {
-				        player = new Player(x, y);
-				    }
-				    break;
+						player.resetPlayer(x, y);
+					} else {
+						player = new Player(x, y, 40, 40, "SpriteImages\\KingJulien.png");
+					}
+					break;
 				default:
 					break;
 				}
@@ -132,33 +136,33 @@ public class Level implements KeyListener{
 		}
 		scanner.close();
 	}
-		
 
-		public void resetLevel() {
-			enemies.clear();
-			blocks.clear();
-			loadFromFile();
-			hud = new Hud(player);
-			gameOver = false;
-			for (Platform p : platforms) {
-		        player.checkPlatformCollision(platforms);
-		    }
+	public void resetLevel() {
+		enemies.clear();
+		blocks.clear();
+		loadFromFile();
+		hud = new Hud(player);
+		gameOver = false;
+		for (Platform p : platforms) {
+			player.checkPlatformCollision(platforms);
 		}
-		
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if (gameOver && e.getKeyCode() == KeyEvent.VK_SPACE) {
-				resetLevel();
-			} else {
-				player.keyPressed(e);
-			}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (gameOver && e.getKeyCode() == KeyEvent.VK_SPACE) {
+			resetLevel();
+		} else {
+			player.keyPressed(e);
 		}
-		
-		@Override
-		public void keyReleased(KeyEvent e) {
-			player.keyReleased(e);
-		}
-		
-		@Override
-		public void keyTyped(KeyEvent e) {}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		player.keyReleased(e);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
 }
