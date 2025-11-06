@@ -112,7 +112,7 @@ public class Level {
 					platforms.add(new Platform(x, y, 40, 40, "SpriteImages\\Platform.png"));
 					break;
 				case 'e':
-					enemies.add(new Enemy(x, y, 40, 40, line));
+					enemies.add(new Enemy(x, y, 40, 40, "SpriteImages\\Mort.png"));
 					break;
 				case 'b':
 					blocks.add(new Collectibles(x, y, 40, 40, "SpriteImages\\Banana.png"));
