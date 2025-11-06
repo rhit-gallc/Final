@@ -16,7 +16,6 @@ public class Collectibles extends MovingEntity {
 
 	public Collectibles(int x, int y, int width, int height, String spritePath) {
 		super(x, y, width, height, spritePath);
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getPoints() {
