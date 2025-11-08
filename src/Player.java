@@ -19,6 +19,10 @@ public class Player extends MovingEntity {
 	private int score = 0;
 	// private boolean movingLeft, movingRight, jumping, onGround;
 	private boolean onGround;
+	private boolean invincible = false;
+	private long invincibleStartTime;
+	private static final int INVINCIBLE_DURATION = 3000; // 5 seconds in milliseconds
+
 
 	public Player(int x, int y, int width, int height, String spritePath) {
 		super(x, y, width, height, spritePath);
@@ -87,5 +91,17 @@ public class Player extends MovingEntity {
 
 	public int getLives() {
 		return lives;
+	}
+	
+	public boolean isInvincible() {
+	    if (invincible && System.currentTimeMillis() - invincibleStartTime >= INVINCIBLE_DURATION) {
+	        invincible = false;
+	    }
+	    return invincible;
+	}
+
+	public void activateInvincibility() {
+	    invincible = true;
+	    invincibleStartTime = System.currentTimeMillis();
 	}
 }

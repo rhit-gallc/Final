@@ -46,7 +46,10 @@ public class Level {
 		for (Enemy e : enemies) {
 			e.update();
 			if (player.getBounds().intersects(e.getBounds())) {
-				player.loseLife();
+				if (!player.isInvincible()) {
+		            player.loseLife();
+		            player.activateInvincibility();
+		        }
 				if (player.getLives() <= 0) {
 					gameOver = true;
 					System.out.println("Game Over!");
