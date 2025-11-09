@@ -50,7 +50,6 @@ public abstract class GameObject {
 			System.out.println("Image not found!");
 		}
 	}
-
 	/**
 	 * 
 	 * 

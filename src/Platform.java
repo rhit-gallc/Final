@@ -1,5 +1,4 @@
 import java.awt.*;
-
 /**
  * Represents something an entity may stand on during the game
  * 

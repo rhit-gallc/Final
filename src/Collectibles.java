@@ -3,7 +3,6 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
-
 /**
  * Facilitates creation of and management of collectible items in the game.
  * 

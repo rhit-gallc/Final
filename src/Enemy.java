@@ -19,7 +19,6 @@ public class Enemy extends MovingEntity {
 		movingRight = true;
 		movingLeft = false;
 	}
-
 	@Override
 	public void update() {
 		if (movingLeft) {

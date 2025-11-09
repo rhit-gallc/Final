@@ -33,7 +33,6 @@ public class Display extends JPanel implements Runnable {
 			}
 		}
 	}
-
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

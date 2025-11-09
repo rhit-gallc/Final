@@ -7,7 +7,6 @@ import java.awt.*;
  * @Reviewers
  */
 public class Hud {
-
     private Player player;
 
     public Hud(Player player) {

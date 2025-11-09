@@ -62,7 +62,6 @@ public class Player extends MovingEntity {
 			}
 		}
 	}
-
 	public void resetPlayer(int startX, int startY) {
 		this.x = startX;
 		this.y = startY;
