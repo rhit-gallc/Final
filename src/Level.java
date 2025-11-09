@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 
 /**
  * This is code that defines a level that can be loaded into the game
- * 
+ * *
  * @author Tyler Bindel, Colton Gall, Ritu Bharamaraddi
  * @Reviewers
  */

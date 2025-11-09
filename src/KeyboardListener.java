@@ -10,7 +10,6 @@ public class KeyboardListener implements KeyListener {
 		this.player = player;
 		this.level = level;
 	}
-
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}

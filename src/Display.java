@@ -1,7 +1,6 @@
 
 import java.awt.*;
 import javax.swing.*;
-
 /**
  * The class that puts the game on the screen
  * 
