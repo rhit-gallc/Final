@@ -27,6 +27,7 @@ public class Level {
 	public List<Collectibles> blocks = new ArrayList<>();
 	private Hud hud;
 	private boolean gameOver = false;
+	private boolean gameWon = false;
 	String fileName;
 
 	public Level(String fileName) {
@@ -36,10 +37,11 @@ public class Level {
 	}
 
 	public void update() {
-		if (gameOver)
+		if (gameOver || gameWon)
 			return;
 		player.update();
 
+		
 		player.checkPlatformCollision(platforms);
 
 		for (Enemy e : enemies) {
@@ -56,10 +58,20 @@ public class Level {
 				break;
 			}
 		}
-
+		
+		boolean allCollected = true;
+		
 		for (Collectibles c : blocks) {
 			c.update();
+			if (!c.isCollected()) { 
+	            allCollected = false;
+	        }
 		}
+		
+		if (allCollected) {
+	        gameWon = true;
+	        System.out.println("You won!");
+	    }
 	}
 
 	public void draw(Graphics g) {
@@ -85,6 +97,16 @@ public class Level {
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Arial", Font.PLAIN, 20));
 			g.drawString("Press SPACE to play again", width / 3, 325); // formerly 175, 325 for width 600 and height 450
+		}
+		if (gameWon) {
+		    g.setColor(Color.WHITE);
+		    g.fillRect(0, 0, width, height);
+		    g.setColor(Color.BLUE); 
+		    g.setFont(new Font("Arial", Font.BOLD, 40));
+		    g.drawString("YOU WIN!", width / 3, 215);
+		    g.setColor(Color.BLACK);
+		    g.setFont(new Font("Arial", Font.PLAIN, 20));
+		    g.drawString("Press SPACE to play again", width / 3, 325);
 		}
 	}
 
@@ -141,6 +163,8 @@ public class Level {
 		loadFromFile();
 		hud = new Hud(player);
 		gameOver = false;
+		gameWon = false;
+		
 		for (Platform p : platforms) {
 			player.checkPlatformCollision(platforms);
 		}
@@ -162,7 +186,7 @@ public class Level {
 	    }
 	}
 	/*
-	 * @Override public void keyPressed(KeyEvent e) { if (gameOver && e.getKeyCode()
+	 * @Override public void keyPressed(KeyEvent e) { if ((gameOver || gameWon) && e.getKeyCode()
 	 * == KeyEvent.VK_SPACE) { resetLevel(); } else { player.keyPressed(e); } }
 	 * 
 	 * @Override public void keyReleased(KeyEvent e) { player.keyReleased(e); }
