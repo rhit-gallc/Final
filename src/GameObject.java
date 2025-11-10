@@ -1,13 +1,18 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
+/**
+ * This is an abstract class that is the outline for all created game objects
+ * and their shared methods and variables.
+ * 
+ * @authors Lizzy Jaynes
+ * @reviewers
+ */
 public abstract class GameObject {
 	protected int x;
 	protected int y;
@@ -25,11 +30,11 @@ public abstract class GameObject {
 	 * @param height     object height
 	 * @param spritePath path to sprite file
 	 */
-	public GameObject(int x, int y, int width, int height, String spritePath) {
+	public GameObject(int x, int y, String spritePath) {
 		this.x = x;
 		this.y = y;
-		this.width = width;
-		this.height = height;
+		this.width = Constants.SCALE;
+		this.height = Constants.SCALE;
 		this.spritePath = spritePath;
 
 		loadSprite(spritePath);
@@ -50,8 +55,9 @@ public abstract class GameObject {
 			System.out.println("Image not found!");
 		}
 	}
+
 	/**
-	 * 
+	 * Gets the bounds of the object as a new rectangle object.
 	 * 
 	 * @return new Rectangle object
 	 */
@@ -59,6 +65,11 @@ public abstract class GameObject {
 		return new Rectangle(x, y, width, height);
 	}
 
+	/**
+	 * Draws game piece using image sprite, if one is not available, draw as a box.
+	 * 
+	 * @param g Graphics object
+	 */
 	public void draw(Graphics g) {
 		if (sprite != null)
 			g.drawImage(sprite, x, y, width, height, null);

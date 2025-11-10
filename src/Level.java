@@ -1,30 +1,23 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.awt.color.*;
-import java.awt.font.*;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
+
 /**
- * This is code that defines a level that can be loaded into the game
- * *
+ * This is code that defines a level that can be loaded into the game *
+ * 
  * @author Tyler Bindel, Colton Gall, Ritu Bharamaraddi
  * @Reviewers
  */
 public class Level {
-	int width = 800;
-	int height = 600;
-	final int sizeVal = 40;
-	public Player player;
-	public List<Platform> platforms = new ArrayList<>();
-	public List<Enemy> enemies = new ArrayList<>();
-	public List<Collectibles> blocks = new ArrayList<>();
+	protected Player player;
+	protected List<Platform> platforms = new ArrayList<>();
+	protected List<Enemy> enemies = new ArrayList<>();
+	protected List<Collectibles> blocks = new ArrayList<>();
 	private Hud hud;
 	private boolean gameOver = false;
 	private boolean gameWon = false;
@@ -41,16 +34,21 @@ public class Level {
 			return;
 		player.update();
 
-		
-		player.checkPlatformCollision(platforms);
+		for (Platform p : platforms) {
+			player.platformCollision(p);
+
+			if (player.onGround) {
+				break;
+			}
+		}
 
 		for (Enemy e : enemies) {
 			e.update();
 			if (player.getBounds().intersects(e.getBounds())) {
 				if (!player.isInvincible()) {
-		            player.loseLife();
-		            player.activateInvincibility();
-		        }
+					player.loseLife();
+					player.activateInvincibility();
+				}
 				if (player.getLives() <= 0) {
 					gameOver = true;
 					System.out.println("Game Over!");
@@ -58,20 +56,19 @@ public class Level {
 				break;
 			}
 		}
-		
+
 		boolean allCollected = true;
-		
+
 		for (Collectibles c : blocks) {
-			c.update();
-			if (!c.isCollected()) { 
-	            allCollected = false;
-	        }
+			if (!c.isCollected()) {
+				allCollected = false;
+			}
 		}
-		
+
 		if (allCollected) {
-	        gameWon = true;
-	        System.out.println("You won!");
-	    }
+			gameWon = true;
+			System.out.println("You won!");
+		}
 	}
 
 	public void draw(Graphics g) {
@@ -82,31 +79,18 @@ public class Level {
 			e.draw(g);
 		}
 		for (Collectibles c : blocks) {
-			if (c.collected) continue;
+			if (c.collected)
+				continue;
 			c.draw(g);
 		}
 		player.draw(g);
 		hud.draw(g);
-//600, 450
+
 		if (gameOver) {
-			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, width, height);
-			g.setColor(Color.RED);
-			g.setFont(new Font("Arial", Font.BOLD, 40));
-			g.drawString("GAME OVER", width / 3, 215); // formerly 175, 215 for width 600 and height 450
-			g.setColor(Color.BLACK);
-			g.setFont(new Font("Arial", Font.PLAIN, 20));
-			g.drawString("Press SPACE to play again", width / 3, 325); // formerly 175, 325 for width 600 and height 450
+			gameLost(g);
 		}
 		if (gameWon) {
-		    g.setColor(Color.WHITE);
-		    g.fillRect(0, 0, width, height);
-		    g.setColor(Color.BLUE); 
-		    g.setFont(new Font("Arial", Font.BOLD, 40));
-		    g.drawString("YOU WIN!", width / 3, 215);
-		    g.setColor(Color.BLACK);
-		    g.setFont(new Font("Arial", Font.PLAIN, 20));
-		    g.drawString("Press SPACE to play again", width / 3, 325);
+			gameWon(g);
 		}
 	}
 
@@ -134,19 +118,19 @@ public class Level {
 
 				switch (c) {
 				case '_':
-					platforms.add(new Platform(x, y, 40, 40, "SpriteImages\\Platform.png"));
+					platforms.add(new Platform(x, y, "SpriteImages\\Platform.png"));
 					break;
 				case 'e':
-					enemies.add(new Enemy(x, y, 40, 40, "SpriteImages\\Mort.png"));
+					enemies.add(new Enemy(x, y, "SpriteImages\\Mort.png"));
 					break;
 				case 'b':
-					blocks.add(new Collectibles(x, y, 40, 40, "SpriteImages\\Banana.png"));
+					blocks.add(new Collectibles(x, y, "SpriteImages\\Banana.png"));
 					break;
 				case 'p':
 					if (player != null) {
 						player.resetPlayer(x, y);
 					} else {
-						player = new Player(x, y, 40, 40, "SpriteImages\\KingJulien.png");
+						player = new Player(x, y, "SpriteImages\\KingJulien.png");
 					}
 					break;
 				default:
@@ -164,9 +148,9 @@ public class Level {
 		hud = new Hud(player);
 		gameOver = false;
 		gameWon = false;
-		
+
 		for (Platform p : platforms) {
-			player.checkPlatformCollision(platforms);
+			player.platformCollision(p);
 		}
 	}
 
@@ -175,22 +159,38 @@ public class Level {
 			resetLevel();
 		}
 	}
-	
+
 	public void collectItem() {
-	    for (Collectibles c : blocks) {
-	        if (!c.collected && player.getBounds().intersects(c.getBounds())) {
-	            c.setCollected(true);
-	            player.addScore(1);
-	            break;
-	        }
-	    }
+		for (Collectibles c : blocks) {
+			if (!c.collected && player.getBounds().intersects(c.getBounds())) {
+				c.setCollected(true);
+				player.addScore(1);
+				break;
+			}
+		}
 	}
-	/*
-	 * @Override public void keyPressed(KeyEvent e) { if ((gameOver || gameWon) && e.getKeyCode()
-	 * == KeyEvent.VK_SPACE) { resetLevel(); } else { player.keyPressed(e); } }
-	 * 
-	 * @Override public void keyReleased(KeyEvent e) { player.keyReleased(e); }
-	 * 
-	 * @Override public void keyTyped(KeyEvent e) { }
-	 */
+
+	public void gameWon(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
+		g.setColor(Color.BLUE);
+		g.setFont(new Font("Arial", Font.BOLD, 40));
+		g.drawString("YOU WIN!", Constants.WIDTH / 3, 215);
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("Arial", Font.PLAIN, 20));
+		g.drawString("Press SPACE to play again", Constants.WIDTH / 3, 325);
+	}
+
+	public void gameLost(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
+		g.setColor(Color.RED);
+		g.setFont(new Font("Arial", Font.BOLD, 40));
+		g.drawString("GAME OVER", Constants.WIDTH / 3, 215); // formerly 175, 215 for width 600 and height 450
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("Arial", Font.PLAIN, 20));
+		g.drawString("Press SPACE to play again", Constants.WIDTH / 3, 325); // formerly 175, 325 for width 600 and
+																				// height 450
+	}
+
 }
