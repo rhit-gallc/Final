@@ -155,7 +155,7 @@ public class Level {
 	}
 
 	public void checkReset() {
-		if (gameOver) {
+		if (gameOver || gameWon) {
 			resetLevel();
 		}
 	}
