@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * This is code that defines a level that can be loaded into the game *
  * 
- * @author Tyler Bindel, Colton Gall, Ritu Bharamaraddi
+ * @author Tyler Bindel, Colton Gall, Ritu Bharamaraddi, Lizzy Jaynes
  * @Reviewers
  */
 public class Level {
@@ -23,17 +23,26 @@ public class Level {
 	private boolean gameWon = false;
 	String fileName;
 
+	/**
+	 * Loads level from given file path and initialized HUD
+	 * 
+	 * @param fileName path to level set up file
+	 */
 	public Level(String fileName) {
 		this.fileName = fileName;
 		loadFromFile();
 		hud = new Hud(player);
 	}
 
+	/**
+	 * Updates the state of the level each frame.
+	 */
 	public void update() {
 		if (gameOver || gameWon)
 			return;
 		player.update();
 
+		// player + platform collision checking
 		for (Platform p : platforms) {
 			player.platformCollision(p);
 
@@ -42,6 +51,7 @@ public class Level {
 			}
 		}
 
+		// player + enemy collision checking
 		for (Enemy e : enemies) {
 			e.update();
 			if (player.getBounds().intersects(e.getBounds())) {
@@ -59,6 +69,7 @@ public class Level {
 
 		boolean allCollected = true;
 
+		// check
 		for (Collectibles c : blocks) {
 			if (!c.isCollected()) {
 				allCollected = false;
@@ -71,6 +82,11 @@ public class Level {
 		}
 	}
 
+	/**
+	 * Draws all objects in the level.
+	 * 
+	 * @param g
+	 */
 	public void draw(Graphics g) {
 		for (Platform p : platforms) {
 			p.draw(g);
@@ -94,6 +110,9 @@ public class Level {
 		}
 	}
 
+	/**
+	 * Builds level from file
+	 */
 	public void loadFromFile() {
 		enemies.clear();
 		blocks.clear();
@@ -141,6 +160,9 @@ public class Level {
 		scanner.close();
 	}
 
+	/**
+	 * Resets level back to initial state
+	 */
 	public void resetLevel() {
 		enemies.clear();
 		blocks.clear();
@@ -154,12 +176,18 @@ public class Level {
 		}
 	}
 
+	/**
+	 * If game is over or one, reset level
+	 */
 	public void checkReset() {
 		if (gameOver || gameWon) {
 			resetLevel();
 		}
 	}
 
+	/**
+	 * Collects collectible
+	 */
 	public void collectItem() {
 		for (Collectibles c : blocks) {
 			if (!c.collected && player.getBounds().intersects(c.getBounds())) {
@@ -170,6 +198,11 @@ public class Level {
 		}
 	}
 
+	/**
+	 * Draws the game won screen.
+	 * 
+	 * @param g graphics context
+	 */
 	public void gameWon(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
@@ -181,6 +214,11 @@ public class Level {
 		g.drawString("Press SPACE to play again", Constants.WIDTH / 3, 325);
 	}
 
+	/**
+	 * Draws the game over screen.
+	 * 
+	 * @param g graphics context
+	 */
 	public void gameLost(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, Constants.WIDTH, Constants.HEIGHT);
@@ -189,8 +227,7 @@ public class Level {
 		g.drawString("GAME OVER", Constants.WIDTH / 3, 215); // formerly 175, 215 for width 600 and height 450
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("Arial", Font.PLAIN, 20));
-		g.drawString("Press SPACE to play again", Constants.WIDTH / 3, 325); // formerly 175, 325 for width 600 and
-																				// height 450
+		g.drawString("Press SPACE to play again", Constants.WIDTH / 3, 325);
 	}
 
 }

@@ -1,12 +1,19 @@
 /**
  * Enemy class controls anything we want to be an obstacle for the player to
- * overcome
+ * overcome, handles enemy movement logic. Extends MovingEntity.
  * 
  * @authors Tyler Bindel, Lizzy Jaynes
  * @reviewers
  */
 public class Enemy extends MovingEntity {
 
+	/**
+	 * Creates new enemy at specified position.
+	 * 
+	 * @param x          x-coordinate
+	 * @param y          y-coordinate
+	 * @param spritePath path to sprite image file
+	 */
 	public Enemy(int x, int y, String spritePath) {
 		super(x, y, spritePath);
 		movingRight = true;
@@ -14,6 +21,9 @@ public class Enemy extends MovingEntity {
 		onGround = true;
 	}
 
+	/**
+	 * Updates enemies movement based on its current position.
+	 */
 	@Override
 	public void update() {
 		if (this.x < 50) {

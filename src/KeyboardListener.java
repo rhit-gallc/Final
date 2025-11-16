@@ -1,7 +1,10 @@
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Handles key input, updates player movement flags, item collection, and level
+ * reset trigger.
+ */
 public class KeyboardListener implements KeyListener {
 	private Player player;
 	private Level level;
@@ -10,6 +13,7 @@ public class KeyboardListener implements KeyListener {
 		this.player = player;
 		this.level = level;
 	}
+
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
@@ -23,8 +27,8 @@ public class KeyboardListener implements KeyListener {
 		case KeyEvent.VK_SPACE -> level.checkReset();
 		case KeyEvent.VK_DOWN -> level.collectItem();
 		}
-
 	}
+
 	@Override
 	public void keyReleased(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -32,6 +36,5 @@ public class KeyboardListener implements KeyListener {
 		case KeyEvent.VK_RIGHT -> player.movingRight = false;
 		case KeyEvent.VK_UP -> player.jumping = false;
 		}
-
 	}
 }

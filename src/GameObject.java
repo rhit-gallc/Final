@@ -7,8 +7,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * This is an abstract class that is the outline for all created game objects
- * and their shared methods and variables.
+ * Abstract base for all objects in the game. Handles variables for location,
+ * width, height, and sprite image. Also holds handles creation of sprite image
+ * and its drawing.
+ * 
+ * Subclasses should be specific types of game objects
  * 
  * @authors Lizzy Jaynes
  * @reviewers
@@ -22,13 +25,11 @@ public abstract class GameObject {
 	protected String spritePath;
 
 	/**
-	 * Constructor for abstract class GameObject, super class to all game pieces
+	 * Creates a new game object at the specified position, with the given sprite.
 	 * 
-	 * @param x          x-coordinate
-	 * @param y          y-coordinate
-	 * @param width      object width
-	 * @param height     object height
-	 * @param spritePath path to sprite file
+	 * @param x          initial x-coordinate
+	 * @param y          initial y-coordinate
+	 * @param spritePath path to sprite image file
 	 */
 	public GameObject(int x, int y, String spritePath) {
 		this.x = x;
@@ -41,10 +42,8 @@ public abstract class GameObject {
 	}
 
 	/**
-	 * Loads sprite image from png file. <br>
-	 * This method takes the path to a png file, reads the image and assigns it as
-	 * the objects sprite. If no image is found this method also handles that
-	 * exception.
+	 * Loads sprite image from file path. If the file cannot be read, the exception
+	 * is handled and an alert is printed to the console.
 	 * 
 	 * @param spritePath path to sprite image file
 	 */
@@ -57,7 +56,7 @@ public abstract class GameObject {
 	}
 
 	/**
-	 * Gets the bounds of the object as a new rectangle object.
+	 * Returns rectangular bounding box of the object
 	 * 
 	 * @return new Rectangle object
 	 */
@@ -66,7 +65,8 @@ public abstract class GameObject {
 	}
 
 	/**
-	 * Draws game piece using image sprite, if one is not available, draw as a box.
+	 * Draws game object using image sprite. If no sprite is available a blue
+	 * rectangle is drawn.
 	 * 
 	 * @param g Graphics object
 	 */

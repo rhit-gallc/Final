@@ -1,18 +1,21 @@
-
 import java.awt.*;
 import javax.swing.*;
+
 /**
- * The class that puts the game on the screen
+ * Main display, handles rendering the level and update loop
  * 
  * @authors Tyler Bindel
- * @Reviewers
+ * @Reviewers Lizzy Jaynes
  */
 public class Display extends JPanel implements Runnable {
 	private Level level;
 	private Thread gameThread;
 
+	/**
+	 * Builds main display, initializes frame, window, background, and keyboard
+	 * listener.
+	 */
 	public Display() {
-		
 		setPreferredSize(new Dimension(800, 600));
 		setBackground(Color.CYAN);
 		level = new Level("Levels\\level1.txt");
@@ -22,6 +25,9 @@ public class Display extends JPanel implements Runnable {
 		gameThread.start();
 	}
 
+	/**
+	 * Main game run loop
+	 */
 	@Override
 	public void run() {
 		while (true) {
@@ -34,12 +40,21 @@ public class Display extends JPanel implements Runnable {
 			}
 		}
 	}
+
+	/**
+	 * Draws game
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		level.draw(g);
 	}
 
+	/**
+	 * Main method, sets up game.
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("King Julien Game");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
